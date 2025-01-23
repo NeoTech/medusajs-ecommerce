@@ -1,0 +1,21 @@
+http:
+  routers:
+    root-router: # Router for the root path
+      rule: "PathPrefix(`/`)" # Matches the root path "/"
+      service: app-server # The name of your service
+      entryPoints:
+        - web
+    api-router:
+      rule: "PathPrefix(`/app`) || PathPrefix(`/auth`) || PathPrefix(`/admin`) || PathPrefix(`/static`)"
+      service: api-server
+      entryPoints:
+        - backend
+  services:
+    app-server:
+      loadbalancer:
+        servers:
+          - url: "http://127.0.0.1:8000"
+    api-server:
+      loadbalancer:
+        servers:
+          - url: "http://127.0.0.1:9000"

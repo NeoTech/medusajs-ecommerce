@@ -1,0 +1,22 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  insecure: true # Not recommended for production
+
+entryPoints:
+  web:
+    address: :80
+  traefik:
+    address: :8180 # Usually used for the dashboard
+  backend:
+    address: :9190
+
+providers:
+  file:
+    directory: ./traefik.d
+    watch: true
+  docker: # Enable the Docker provider
+    exposedByDefault: false # Important for security

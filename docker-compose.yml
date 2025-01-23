@@ -1,0 +1,32 @@
+services:
+  db:
+    container_name: medusa-db
+    image: postgres:17.2-alpine3.21
+    command: -c ssl=on -c ssl_cert_file=/var/lib/postgresql/certs/server.crt -c ssl_key_file=/var/lib/postgresql/certs/server.key
+    restart: always
+    shm_size: 128mb
+    volumes:
+        - ./pg_data:/var/lib/postgresql/data
+        - ./certs/:/var/lib/postgresql/certs
+          #- ./initdb/:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_PASSWORD=psql
+      - POSTGRES_USER=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
+  cache:
+    container_name: medusa-redis
+    image: redis:7.4.2-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - ./redis-cache:/data
+  front:
+    image: medusa-frontend:latest
+    container_name: medusa-frontend
+  back:
+    image: medusa-backend:latest
+    container_name: medusa-backend
