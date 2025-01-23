@@ -6,12 +6,16 @@ My exploration of medusa
 sudo ./traefik --log.level=DEBUG --configfile=traefik.yml
 ```
 This allows you to run your dev environment on another box somewhere.
+Note, that traefik could be run from docker-compose as well.
 
 # PSQL running in docker.
+To just run the DB and make sure it works generat the certs.
+And the run the Docker compose up command - that will generate the necssar
+pgdata folders and such.
 ```bash
-docker-compose -f docker-compose.psql.yml up -d
+./gen-ssl.sh
+docker-compose up db -d
 ```
-Just gives you a database to start with.
 
 # Stripe instructions for V2.3.1
 https://docs.medusajs.com/resources/commerce-modules/payment/payment-provider/stripe#main
