@@ -27,7 +27,12 @@ services:
   front:
     image: medusa/frontend:latest
     container_name: medusa-frontend
+    env_file: ./env.local.front
+
   back:
     image: medusa/backend:latest
     container_name: medusa-backend
+    env_file: ./env.backend
+    volumes:
+      - ./medusa-config.ts:/app/medusa-config.ts
 
